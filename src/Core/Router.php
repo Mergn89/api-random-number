@@ -13,7 +13,7 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         $routes = [
-            'GET /random' => [RandomController::class, 'generate'],
+            'POST /random' => [RandomController::class, 'generate'],
             'GET /get/{id}' => [GetController::class, 'get'],
         ];
 

@@ -18,17 +18,14 @@ class RandomNumberClient
         return $this->sendRequest($url);
     }
 
-    public function getNumberById(string $id): array
-    {
-        $url = $this->baseUrl . '/get/' . urlencode($id);
-        return $this->sendRequest($url);
-    }
+
 
     private function sendRequest(string $url): array
     {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
@@ -63,9 +60,6 @@ try {
     echo "Сгенерированный номер с ID: " . $result['id'] . "\n";
     echo "Номер: " . $result['number'] . "\n\n";
 
-    $id = $result['id'];
-    $getResult = $client->getNumberById($id);
-    echo "Номер с ID $id: " . $getResult['number'] . "\n";
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }
