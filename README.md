@@ -85,7 +85,7 @@
 
 ### Клиентский скрипт
 
-- Выполните `RandomNumberClient.php` для генерации числа и его получения по ID:
+- Выполните `RandomNumberClient.php` из директории src/ для генерации числа и его получения по ID:
   ```bash
   php RandomNumberClient.php
 

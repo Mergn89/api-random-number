@@ -2,9 +2,6 @@
 
 require __DIR__ . '/Core/Autoload.php';
 
-use Core\Autoload;
-
-Autoload::registrate(__DIR__ . '/src/');
 
 class RandomNumberClient
 {
