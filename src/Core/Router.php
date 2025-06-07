@@ -4,9 +4,18 @@ namespace Core;
 
 use Controller\RandomController;
 use Controller\GetController;
+use Repository\RandomNumberRepository;
+use Service\RandomNumberService;
 
 class Router
 {
+    private RandomNumberService $service;
+
+    public function __construct(RandomNumberService $service = null)
+    {
+        $this->service = $service ?? new RandomNumberService(new RandomNumberRepository());
+    }
+
     public function handleRequest(): void
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -45,7 +54,7 @@ class Router
     private function callHandler(array $handler, array $params = []): void
     {
         [$className, $methodName] = $handler;
-        $controller = new $className();
+        $controller = new $className($this->service);
         call_user_func_array([$controller, $methodName], $params);
     }
 }

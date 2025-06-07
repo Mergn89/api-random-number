@@ -2,28 +2,27 @@
 
 namespace Controller;
 
-use Model\RandomNumber;
 use Service\RandomNumberService;
 
 class RandomController
 {
     private RandomNumberService $service;
 
-    public function __construct()
+    public function __construct(RandomNumberService $service)
     {
-        $this->service = new RandomNumberService(new RandomNumber());
+        $this->service = $service;
     }
 
     public function generate(): void
     {
         $number = $this->service->generateNumber();
-        $id = $this->service->saveNumber($number);
+        $entity = $this->service->saveNumber($number);
 
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'success',
-            'id' => $id,
-            'number' => $number
+            'id' => $entity->getId(),
+            'number' => $entity->getNumber()
         ]);
     }
 }

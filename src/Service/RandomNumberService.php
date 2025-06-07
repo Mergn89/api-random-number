@@ -2,25 +2,27 @@
 
 namespace Service;
 
-use Model\RandomNumber;
+use Repository\RandomNumberRepository;
+use Entity\RandomNumber;
 
 class RandomNumberService
 {
-    private RandomNumber $randomNumber;
+    private RandomNumberRepository $repository;
 
-    public function __construct(RandomNumber $randomNumber)
+    public function __construct(RandomNumberRepository $repository)
     {
-        $this->randomNumber = $randomNumber;
+        $this->repository = $repository;
     }
 
-    public function saveNumber(int $number): string
+    public function saveNumber(int $number): RandomNumber
     {
-        return $this->randomNumber->create($number);
+        $entity = new RandomNumber($number);
+        return $this->repository->save($entity);
     }
 
-    public function getNumber(string $id): ?int
+    public function getNumber(string $id): ?RandomNumber
     {
-        return $this->randomNumber->find($id);
+        return $this->repository->find($id);
     }
 
     public function generateNumber(): int

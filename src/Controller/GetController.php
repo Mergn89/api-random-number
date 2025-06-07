@@ -2,24 +2,23 @@
 
 namespace Controller;
 
-use Model\RandomNumber;
 use Service\RandomNumberService;
 
 class GetController
 {
     private RandomNumberService $service;
 
-    public function __construct()
+    public function __construct(RandomNumberService $service)
     {
-        $this->service = new RandomNumberService(new RandomNumber());
+        $this->service = $service;
     }
 
     public function get(string $id): void
     {
-        $number = $this->service->getNumber($id);
+        $randomNumber = $this->service->getNumber($id);
 
         header('Content-Type: application/json');
-        if ($number === null) {
+        if ($randomNumber === null) {
             http_response_code(404);
             echo json_encode([
                 'status' => 'error',
@@ -30,7 +29,8 @@ class GetController
 
         echo json_encode([
             'status' => 'success',
-            'number' => $number
+            'id' => $randomNumber->getId(),
+            'number' => $randomNumber->getNumber()
         ]);
     }
 }
