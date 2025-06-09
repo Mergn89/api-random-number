@@ -2,28 +2,16 @@
 
 namespace Repository;
 
-use Core\DatabaseConnection;
+use Core\AbstractRepository;
 use Entity\RandomNumber;
-use PDO;
 
-class RandomNumberRepository extends DatabaseConnection
+class RandomNumberRepository extends AbstractRepository
 {
-    public function save(RandomNumber $entity): RandomNumber
-    {
-        $pdo = $this->getConnection();
-        $stmt = $pdo->prepare("INSERT INTO random_numbers (number) VALUES (:number)");
-        $stmt->execute(['number' => $entity->getNumber()]);
-        $id = $pdo->lastInsertId();
-        return new RandomNumber($entity->getNumber(), (int)$id);
-    }
+    protected string $entityClass = RandomNumber::class;
+    protected array $fillable = ['number'];
 
-    public function find(string $id): ?RandomNumber
+    protected function getTableName(): string
     {
-        $pdo = $this->getConnection();
-        $stmt = $pdo->prepare("SELECT id, number FROM random_numbers WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? new RandomNumber((int)$result['number'], (int)$result['id']) : null;
+        return 'random_numbers';
     }
-
 }

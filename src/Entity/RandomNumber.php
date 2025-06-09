@@ -7,7 +7,7 @@ class RandomNumber
     private ?int $id;
     private int $number;
 
-    public function __construct(int $number, ?int $id = null)
+    public function __construct(int $number,?int $id = null)
     {
         $this->id = $id;
         $this->number = $number;
